@@ -2,6 +2,6 @@
 server1 ansible_host=192.168.56.132 ansible_user=dexter
 
 [centos]
-centos ansible_host=192.168.56.133 ansible_user=dexter
+centos ansible_host=192.168.56.133 ansible_user=dsarcauga
 
 
