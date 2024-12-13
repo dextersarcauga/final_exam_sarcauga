@@ -1,0 +1,38 @@
+---
+- name: Install and configure services
+  hosts: centos
+  become: yes
+  vars:
+    config: "{{ lookup('file', 'config.yml') | from_yaml }}"
+    username: "{{ config.username }}"
+
+  tasks:
+    - name: Install enterprise service
+      package:
+        name: "{{config. enterprise_service.name }}"
+        state: present
+      when: ansible_os_family in ['Debian', 'CentOS']
+
+    - name: Configure enterprise service
+      template:
+        src: temp/nginx.j2
+        dest: /etc/nginx/nginx.conf
+      when: config.enterprise_service.name == "nginx"
+
+    - name: Install monitoring tool
+      package:
+        name: "{{ config.monitoring_tool.name }}"
+        state: present
+      when: ansible_os_family in ['Debian', 'CentOS']
+
+    - name: Configure monitoring tool
+      template:
+        src: temp/prom.j2
+        dest: /etc/prometheus/prometheus.yaml
+      when: config.monitoring_tool.name == "prometheus"
+
+    - name: Change MOTD
+      lineinfile:
+        path: ./motd
+        line: "Ansible Managed by {{ username }}"
+        state: present

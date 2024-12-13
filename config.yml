@@ -1,0 +1,10 @@
+    enterprise_service:
+      name: "nginx"
+      version: "1.18.0"
+
+    monitoring_tool:
+      name: "prometheus"
+      version: "2.30.3"
+      host: "monitoring.example.com"
+
+    username: "dexter"
